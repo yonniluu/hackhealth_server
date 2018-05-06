@@ -44,13 +44,10 @@ router.get('/session', function (req, res) {
 });
 
 /**
- * GET /room/:name/:role
- * role is to keep track of whether a suer is a patient or doctor.
- * it could be doctor or patient
+ * GET /room/:name
  */
 router.get('/room/:name', function (req, res) {
   var roomName = req.params.name;
-  // var role = req.params.role;
   var sessionId;
   var token;
   console.log('attempting to create a session associated with the room: ' + roomName);
@@ -84,21 +81,13 @@ router.get('/room/:name', function (req, res) {
       roomToSessionIdDictionary[roomName] = session.sessionId;
 
       // generate token
-
-      token = session.generateToken({
-		role :                   'moderator',
-		expireTime :             (new Date().getTime() / 1000)+(7 * 24 * 60 * 60), // in one week
-		data :                   isPatient,
-		initialLayoutClassList : ['focus']
-      })
-
-      // token = opentok.generateToken(session.sessionId);
-      // res.setHeader('Content-Type', 'application/json');
-      // res.send({
-      //   apiKey: apiKey,
-      //   sessionId: session.sessionId,
-      //   token: token
-      // });
+      token = opentok.generateToken(session.sessionId);
+      res.setHeader('Content-Type', 'application/json');
+      res.send({
+        apiKey: apiKey,
+        sessionId: session.sessionId,
+        token: token
+      });
     });
   }
 });
