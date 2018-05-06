@@ -45,11 +45,12 @@ router.get('/session', function (req, res) {
 
 /**
  * GET /room/:name/:role
- * isPatient is to keep track of whether a suer is a patient or doctor.
+ * role is to keep track of whether a suer is a patient or doctor.
+ * it could be doctor or patient
  */
-router.get('/room/:name/:isPatient', function (req, res) {
+router.get('/room/:name', function (req, res) {
   var roomName = req.params.name;
-  var isPatient = req.params.role;
+  // var role = req.params.role;
   var sessionId;
   var token;
   console.log('attempting to create a session associated with the room: ' + roomName);
